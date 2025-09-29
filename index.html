@@ -180,6 +180,22 @@
             <p class="section-description">친구들에게 직접 조사한 결과를 입력하고, 멋진 그래프와 보고서 예시 문장을 만들어 보세요!</p>
 
             <div id="surveyMaker">
+                <div class="flex flex-wrap items-center gap-4 mb-4 bg-white p-4 rounded-lg border border-teal-200">
+                    <h4 class="w-full text-lg font-bold text-teal-700">⭐ 먼저, 조사 대상을 알려주세요!</h4>
+                    <div>
+                        <label for="surveyGrade" class="text-sm font-semibold text-gray-600">학년:</label>
+                        <input type="number" id="surveyGrade" class="survey-maker-input w-20" placeholder="4">
+                    </div>
+                    <div>
+                        <label for="surveyClass" class="text-sm font-semibold text-gray-600">반:</label>
+                        <input type="number" id="surveyClass" class="survey-maker-input w-20" placeholder="6">
+                    </div>
+                    <div>
+                        <label for="surveyTotalStudents" class="text-sm font-semibold text-gray-600">총 인원 (명):</label>
+                        <input type="number" id="surveyTotalStudents" class="survey-maker-input w-24" placeholder="24">
+                    </div>
+                </div>
+
                 <input type="text" id="surveyTopicInput" class="survey-maker-input" placeholder="여기에 설문조사 주제를 써주세요 (예: 줄임말 사용 조사)">
                 
                 <div id="questionsList"></div>
@@ -204,7 +220,7 @@
                         <li>우리 반 친구들의 줄임말 사용 실태 조사 보고서</li>
                         <li>아름다운 우리말, 우리가 지켜요!</li>
                         <li>초등학생의 비속어 사용, 원인과 해결 방법을 찾아서</li>
-                        <li>신조어, 이대로 괜찮을까? - 4학년 6반 언어 습관 탐구</li>
+                        <li>신조어, 이대로 괜찮을까? - 우리 학교 언어 습관 탐구</li>
                     </ul>
                 </div>
             </section>
@@ -216,7 +232,7 @@
                 <div class="example-box">
                     <strong>[조사 대상 예시]</strong>
                     <ul>
-                        <li>행복초등학교 4학년 6반 학생 24명</li>
+                        <li>행복초등학교 O학년 O반 학생 OO명</li>
                         <li>우리 가족 (아버지, 어머니, 나)과 친척들</li>
                         <li>내가 자주 보는 유튜브 채널 'OO TV'의 댓글 50개</li>
                     </ul>
@@ -271,7 +287,7 @@
                  <div class="example-box">
                     <strong>[내용 쓰기 예시]</strong>
                     <ul>
-                        <li><strong>(설문+면담)</strong> 4학년 6반 24명에게 설문조사를 한 결과, 18명의 친구들이 줄임말을 '자주 사용한다'고 답했습니다. 줄임말을 사용하는 이유로는 '타자를 치기 편해서'가 가장 많았습니다. 또한, 국어 선생님과 면담한 결과, 줄임말을 너무 많이 쓰면 맞춤법을 헷갈리게 되고 세대 간의 소통을 막을 수 있다는 문제점을 알게 되었습니다.</li>
+                        <li><strong>(설문+면담)</strong> O학년 O반 OO명에게 설문조사를 한 결과, OO명의 친구들이 줄임말을 '자주 사용한다'고 답했습니다. 줄임말을 사용하는 이유로는 '타자를 치기 편해서'가 가장 많았습니다. 또한, 국어 선생님과 면담한 결과, 줄임말을 너무 많이 쓰면 맞춤법을 헷갈리게 되고 세대 간의 소통을 막을 수 있다는 문제점을 알게 되었습니다.</li>
                     </ul>
                 </div>
             </section>
@@ -304,10 +320,19 @@
     </div>
 <script>
     let questionCount = 0;
+    const surveyTotalStudentsInput = document.getElementById('surveyTotalStudents');
     const addQuestionBtn = document.getElementById('addQuestionBtn');
     const questionsList = document.getElementById('questionsList');
     const finalizeSurveyBtn = document.getElementById('finalizeSurveyBtn');
     const surveyResultsContainer = document.getElementById('surveyResultsContainer');
+
+    surveyTotalStudentsInput.addEventListener('input', () => {
+        const total = surveyTotalStudentsInput.value;
+        const answerCountInputs = document.querySelectorAll('.answer-count');
+        answerCountInputs.forEach(input => {
+            input.max = total;
+        });
+    });
 
     addQuestionBtn.addEventListener('click', () => {
         questionCount++;
@@ -328,12 +353,13 @@
         if (e.target.classList.contains('add-answer-btn')) {
             const questionId = e.target.dataset.questionId;
             const answersContainer = document.querySelector(`#${questionId} .answers-container`);
+            const totalStudents = parseInt(surveyTotalStudentsInput.value) || 24;
             
             const answerItem = document.createElement('div');
             answerItem.className = 'answer-item';
             answerItem.innerHTML = `
                 <input type="text" class="survey-maker-input answer-text" placeholder="답변 내용을 입력하세요">
-                <input type="number" class="survey-maker-input answer-count" placeholder="0" min="0" max="24">
+                <input type="number" class="survey-maker-input answer-count" placeholder="0" min="0" max="${totalStudents}">
                 <span>명</span>
             `;
             answersContainer.appendChild(answerItem);
@@ -341,6 +367,15 @@
     });
 
     finalizeSurveyBtn.addEventListener('click', () => {
+        const grade = document.getElementById('surveyGrade').value.trim() || 'O';
+        const classNum = document.getElementById('surveyClass').value.trim() || 'O';
+        const totalStudents = parseInt(document.getElementById('surveyTotalStudents').value) || 0;
+
+        if (totalStudents <= 0) {
+            alert('조사할 총 인원을 정확하게 입력해주세요!');
+            return;
+        }
+
         const surveyTopic = document.getElementById('surveyTopicInput').value.trim();
         if (!surveyTopic) {
             alert('설문조사 주제를 먼저 입력해주세요!');
@@ -357,7 +392,7 @@
         surveyResultsContainer.classList.remove('hidden');
 
         let allTotalsValid = true;
-        let reportText = `<strong>[보고서에 이렇게 써봐요!]</strong><p class="mt-2">우리 반 24명을 대상으로 '${surveyTopic}'에 대해 설문조사를 했습니다.</p>`;
+        let reportText = `<strong>[보고서에 이렇게 써봐요!]</strong><p class="mt-2">${grade}학년 ${classNum}반 ${totalStudents}명을 대상으로 '${surveyTopic}'에 대해 설문조사를 했습니다.</p>`;
         
         questionBlocks.forEach((block, index) => {
             const questionText = block.querySelector('.question-text').value.trim();
@@ -374,16 +409,15 @@
                 }
             });
 
-            if (totalCount !== 24) {
+            if (totalCount !== totalStudents) {
                 allTotalsValid = false;
             }
 
-            // Display results for this question
             const resultItem = document.createElement('div');
             resultItem.className = 'result-item';
             let resultHTML = `<p class="font-bold mb-2">질문 ${index + 1}: ${questionText} (총 ${totalCount}명 응답)</p>`;
-            if (totalCount !== 24) {
-                resultHTML += `<p class="text-sm text-red-500 mb-2">※ 응답한 친구 수가 24명이 맞는지 확인해주세요!</p>`;
+            if (totalCount !== totalStudents) {
+                resultHTML += `<p class="text-sm text-red-500 mb-2">※ 응답한 친구 수가 총 인원(${totalStudents}명)과 맞는지 확인해주세요!</p>`;
             }
 
             let maxCount = 0;
@@ -399,13 +433,23 @@
                     <div>
                         <span>${answer.text}: ${answer.count}명</span>
                         <div class="result-bar">
-                            <div class="bar-fill" style="width: ${percentage}%">${percentage}%</div>
+                            <div class="bar-fill" style="width: 0;"></div>
                         </div>
                     </div>
                 `;
             });
             resultItem.innerHTML = resultHTML;
             surveyResultsContainer.appendChild(resultItem);
+
+            // Animate bars after appending to DOM
+            setTimeout(() => {
+                 resultItem.querySelectorAll('.bar-fill').forEach((bar, barIndex) => {
+                    const percentage = totalCount > 0 ? (answers[barIndex].count / totalCount * 100).toFixed(0) : 0;
+                    bar.style.width = `${percentage}%`;
+                    bar.textContent = `${percentage}%`;
+                 });
+            }, 100);
+
 
             if (maxAnswer) {
                 reportText += `<p>'${questionText}'라는 질문에는 '${maxAnswer}'라고 답한 친구가 ${maxCount}명으로 가장 많았습니다. `;
@@ -422,7 +466,7 @@
         if (!allTotalsValid) {
             const warning = document.createElement('p');
             warning.className = "text-center font-bold text-red-600 mt-4";
-            warning.textContent = "⚠️ 몇몇 질문의 응답자 수가 24명이 아니에요! 다시 한번 확인해주세요!";
+            warning.textContent = `⚠️ 몇몇 질문의 응답자 수가 총 인원(${totalStudents}명)과 달라요! 다시 한번 확인해주세요!`;
             surveyResultsContainer.prepend(warning);
         }
         
