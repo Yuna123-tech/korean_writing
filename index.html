@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>우리말 지킴이 보고서 안내서</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Gowun Dodum', sans-serif;
+            background-color: #F7F9FF; /* Soft blue background */
+            color: #4F4F4F; /* Dark gray text */
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .header {
+            padding: 2.5rem 0;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #3A4A7A; /* Dark blue */
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 0.5rem;
+        }
+        .header p {
+            font-size: 1.2rem;
+            color: #6A85B6; /* Medium blue */
+        }
+        .guide-section {
+            background-color: #ffffff;
+            border-radius: 20px;
+            margin-bottom: 2.5rem;
+            padding: 2rem;
+            box-shadow: 0 6px 20px rgba(106, 133, 182, 0.1);
+            border: 1px solid #E2E8F0;
+            position: relative;
+            overflow: hidden;
+        }
+        .section-badge {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background-color: #FFAFCC; /* Pastel Pink */
+            color: #8C4A6B;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1rem;
+            border: 3px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #3A4A7A; /* Dark blue */
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .section-description {
+            color: #5A6A8C;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        .example-box {
+            background-color: #F7F9FF;
+            border: 2px dashed #BDE0FE; /* Pastel Blue */
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+        }
+        .example-box strong {
+            color: #3A4A7A;
+            display: block;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+        .example-box ul {
+            list-style-position: inside;
+            list-style-type: '- ';
+            margin-left: 0.5rem;
+        }
+        .example-box ul li, .example-box p {
+            margin-bottom: 0.5rem;
+        }
+        .topic-section {
+            background: linear-gradient(135deg, #FFF1F2, #F7F9FF);
+            border-color: #FECACA;
+        }
+        .method-box {
+            border: 1px solid #FFE4B5; /* Moccasin */
+            background-color: #FFF9F0;
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-top: 1rem;
+        }
+        .method-box h4 {
+            font-weight: 700;
+            color: #C05621;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        hr.cute-divider {
+            border: 0;
+            height: 1px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(106, 133, 182, 0.3), rgba(0, 0, 0, 0));
+            margin: 1rem 0;
+        }
+
+        /* Survey Helper Styles */
+        .survey-helper-section {
+            background: linear-gradient(135deg, #E0F7FA, #F7F9FF);
+        }
+        .survey-maker-input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #B2DFDB;
+            font-family: 'Gowun Dodum', sans-serif;
+            margin-bottom: 0.5rem;
+        }
+        .survey-maker-button {
+            padding: 8px 12px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: white;
+            background-color: #26A69A;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .survey-maker-button:hover { background-color: #00796B; }
+        .question-block {
+            background: white;
+            border: 1px solid #CFD8DC;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        .answer-item { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .answer-item input[type="text"] { flex-grow: 1; }
+        .answer-item input[type="number"] { width: 80px; text-align: center; }
+        #finalizeSurveyBtn {
+            width: 100%; padding: 12px; font-size: 1.1rem; font-weight: 700; color: white;
+            background: linear-gradient(45deg, #84FAB0, #8FD3F4); border: none; border-radius: 12px;
+            cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; margin-top: 1.5rem;
+        }
+        #finalizeSurveyBtn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(137, 211, 244, 0.5); }
+        #surveyResultsContainer {
+            margin-top: 1.5rem; background-color: #F7F9FF; padding: 1.5rem;
+            border-radius: 12px; border: 2px dashed #8FD3F4;
+        }
+        .result-item { background: white; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .result-bar { background-color: #E0F7FA; border-radius: 8px; overflow: hidden; margin-top: 4px; }
+        .bar-fill { background-color: #4DB6AC; color: white; padding: 4px 8px; text-align: right; white-space: nowrap; transition: width 0.5s ease-in-out; }
+        .report-write-guide { background-color: #FFFFE0; border: 1px solid #FDD835; padding: 1rem; border-radius: 8px; margin-top: 1rem; }
+    </style>
+</head>
+<body>
+
+    <div class="container p-4 sm:p-6">
+        <header class="header">
+            <h1>💖 우리말 지킴이 보고서 안내서 💖</h1>
+            <p>귀여운 안내서와 함께 멋진 보고서를 완성해봐요!</p>
+        </header>
+
+        <section class="guide-section survey-helper-section">
+            <div class="section-badge" style="background-color: #A0E7E5;">특별 기능</div>
+            <h2 class="section-title">✨ 우리 반 설문조사 만들기 & 결과 정리 도우미 ✨</h2>
+            <p class="section-description">친구들에게 직접 조사한 결과를 입력하고, 멋진 그래프와 보고서 예시 문장을 만들어 보세요!</p>
+
+            <div id="surveyMaker">
+                <input type="text" id="surveyTopicInput" class="survey-maker-input" placeholder="여기에 설문조사 주제를 써주세요 (예: 줄임말 사용 조사)">
+                
+                <div id="questionsList"></div>
+
+                <button id="addQuestionBtn" class="survey-maker-button mt-2">질문 추가하기</button>
+            </div>
+
+            <button id="finalizeSurveyBtn">결과 정리하고 보고서 예시 보기</button>
+
+            <div id="surveyResultsContainer" class="hidden"></div>
+        </section>
+
+        <!-- Main Content -->
+        <main>
+             <section class="guide-section">
+                <div class="section-badge" style="background-color: #A9D5FF;">1단계</div>
+                <h2 class="section-title">📝 제목 정하기</h2>
+                <p class="section-description">보고서의 얼굴! 내가 무엇을 조사했는지 가장 잘 나타내는 멋진 제목을 붙여주세요.</p>
+                <div class="example-box">
+                    <strong>[제목 예시]</strong>
+                    <ul>
+                        <li>우리 반 친구들의 줄임말 사용 실태 조사 보고서</li>
+                        <li>아름다운 우리말, 우리가 지켜요!</li>
+                        <li>초등학생의 비속어 사용, 원인과 해결 방법을 찾아서</li>
+                        <li>신조어, 이대로 괜찮을까? - 4학년 6반 언어 습관 탐구</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="guide-section">
+                <div class="section-badge" style="background-color: #C3EDC0;">2단계</div>
+                <h2 class="section-title">🗓️ 조사 대상과 기간 정하기</h2>
+                <p class="section-description">누구를, 언제부터 언제까지 조사했는지 알려주세요.</p>
+                <div class="example-box">
+                    <strong>[조사 대상 예시]</strong>
+                    <ul>
+                        <li>행복초등학교 4학년 6반 학생 24명</li>
+                        <li>우리 가족 (아버지, 어머니, 나)과 친척들</li>
+                        <li>내가 자주 보는 유튜브 채널 'OO TV'의 댓글 50개</li>
+                    </ul>
+                    <hr class="cute-divider">
+                    <strong>[조사 기간 예시]</strong>
+                    <ul>
+                        <li>2025년 9월 29일부터 2025년 10월 2일까지 (4일간)</li>
+                        <li>2025년 10월 첫째 주 (7일간)</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <section class="guide-section">
+                <div class="section-badge" style="background-color: #FFF6A7;">3단계</div>
+                <h2 class="section-title">💡 조사 동기 쓰기</h2>
+                <p class="section-description">왜 이 조사를 하게 되었나요? 궁금했던 점이나 평소 생각을 솔직하게 적어보세요.</p>
+                <div class="example-box">
+                    <strong>[조사 동기 예시]</strong>
+                    <ul>
+                       <li>평소 친구들과 대화할 때 줄임말을 자주 사용하는데, 어른들께서는 그 뜻을 잘 모르셔서 대화가 어려웠던 적이 있습니다. 그래서 우리 반 친구들은 줄임말을 얼마나 사용하는지 궁금했고, 바른 우리말 사용의 중요성을 알아보고 싶어서 이 조사를 시작하게 되었습니다.</li>
+                        <hr class="cute-divider">
+                       <li>게임을 하다가 나쁜 말을 쓰는 사람 때문에 기분이 상한 적이 있습니다. 얼굴이 보이지 않는다고 함부로 말하는 것이 잘못되었다고 생각했고, 어떻게 하면 인터넷에서 예쁜 말을 사용할 수 있을지 방법을 찾아보고 싶었습니다.</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <section class="guide-section">
+                <div class="section-badge" style="background-color: #FFD6A5;">4단계</div>
+                <h2 class="section-title">🔎 조사 방법 정하기</h2>
+                <p class="section-description">어떻게 조사했는지 방법을 정하고, 아래 안내에 따라 활동해 보세요.</p>
+                
+                <div class="method-box">
+                    <h4>📊 설문조사: 친구들의 생각을 모아봐요!</h4>
+                    <p class="mt-2 text-sm">맨 위의 '설문조사 도우미'를 활용하면 나만의 설문지를 만들고 결과를 정리하기 쉬워요!</p>
+                </div>
+
+                <div class="method-box">
+                    <h4>💬 면담: 전문가의 의견을 들어봐요!</h4>
+                    <p class="mt-2 text-sm">국어 선생님이나 부모님께 직접 여쭤볼 수 있어요. (예: "저희가 줄임말을 쓰는 것에 대해 어떻게 생각하세요?")</p>
+                </div>
+
+                <div class="method-box">
+                    <h4>💻 인터넷 조사: 믿을 수 있는 정보를 찾아요!</h4>
+                     <p class="mt-2 text-sm"><strong>추천 사이트:</strong> 국립국어원, 어린이 뉴스 사이트, EBS 초등</p>
+                </div>
+            </section>
+
+            <section class="guide-section">
+                <div class="section-badge" style="background-color: #FDBCB4;">5단계</div>
+                <h2 class="section-title">✍️ 조사한 내용 쓰기</h2>
+                <p class="section-description">조사를 통해 알게 된 사실을 자세하게 써주세요. 설문조사 결과나 면담 내용을 정리하면 좋아요.</p>
+                 <div class="example-box">
+                    <strong>[내용 쓰기 예시]</strong>
+                    <ul>
+                        <li><strong>(설문+면담)</strong> 4학년 6반 24명에게 설문조사를 한 결과, 18명의 친구들이 줄임말을 '자주 사용한다'고 답했습니다. 줄임말을 사용하는 이유로는 '타자를 치기 편해서'가 가장 많았습니다. 또한, 국어 선생님과 면담한 결과, 줄임말을 너무 많이 쓰면 맞춤법을 헷갈리게 되고 세대 간의 소통을 막을 수 있다는 문제점을 알게 되었습니다.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="guide-section">
+                <div class="section-badge" style="background-color: #B2A4FF;">6단계</div>
+                <h2 class="section-title">💖 조사 소감 및 결론</h2>
+                <p class="section-description">조사를 마치고 나서 느낀 점이나 새롭게 알게 된 점, 앞으로의 다짐을 써보세요.</p>
+                <div class="example-box">
+                    <strong>[소감 쓰기 예시]</strong>
+                     <ul>
+                        <li>이번 조사를 통해 생각보다 많은 친구들이 줄임말을 사용하고 있다는 것을 알게 되어 놀랐습니다. 처음에는 줄임말이 재미있고 편하다고만 생각했는데, 우리말을 파괴하고 어른들과의 대화를 어렵게 만들 수 있다는 점을 깨달았습니다. 앞으로는 우리 반 친구들에게 이 사실을 알려 함께 아름다운 우리말을 지켜나가는 '우리말 지킴이'가 되고 싶습니다.</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <section class="guide-section">
+                <div class="section-badge" style="background-color: #D7BDE2;">7단계</div>
+                <h2 class="section-title">📚 참고 자료와 출처</h2>
+                <p class="section-description">인터넷이나 책에서 자료를 찾았다면, 어디서 찾았는지 정확하게 밝혀주세요.</p>
+                <div class="example-box">
+                    <strong>[출처 쓰기 예시]</strong>
+                    <ul>
+                        <li><strong>인터넷 사이트:</strong> 국립국어원 누리집 (www.korean.go.kr)</li>
+                        <li><strong>면담:</strong> 행복초등학교 국어 담당 OOO 선생님과의 면담 (2025년 10월 1일)</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+<script>
+    let questionCount = 0;
+    const addQuestionBtn = document.getElementById('addQuestionBtn');
+    const questionsList = document.getElementById('questionsList');
+    const finalizeSurveyBtn = document.getElementById('finalizeSurveyBtn');
+    const surveyResultsContainer = document.getElementById('surveyResultsContainer');
+
+    addQuestionBtn.addEventListener('click', () => {
+        questionCount++;
+        const questionId = `q-${questionCount}`;
+        
+        const questionBlock = document.createElement('div');
+        questionBlock.className = 'question-block';
+        questionBlock.id = questionId;
+        questionBlock.innerHTML = `
+            <input type="text" class="survey-maker-input question-text" placeholder="질문 ${questionCount} 내용을 입력하세요">
+            <div class="answers-container"></div>
+            <button class="survey-maker-button add-answer-btn mt-2" data-question-id="${questionId}">답변 항목 추가하기</button>
+        `;
+        questionsList.appendChild(questionBlock);
+    });
+
+    questionsList.addEventListener('click', (e) => {
+        if (e.target.classList.contains('add-answer-btn')) {
+            const questionId = e.target.dataset.questionId;
+            const answersContainer = document.querySelector(`#${questionId} .answers-container`);
+            
+            const answerItem = document.createElement('div');
+            answerItem.className = 'answer-item';
+            answerItem.innerHTML = `
+                <input type="text" class="survey-maker-input answer-text" placeholder="답변 내용을 입력하세요">
+                <input type="number" class="survey-maker-input answer-count" placeholder="0" min="0" max="24">
+                <span>명</span>
+            `;
+            answersContainer.appendChild(answerItem);
+        }
+    });
+
+    finalizeSurveyBtn.addEventListener('click', () => {
+        const surveyTopic = document.getElementById('surveyTopicInput').value.trim();
+        if (!surveyTopic) {
+            alert('설문조사 주제를 먼저 입력해주세요!');
+            return;
+        }
+
+        const questionBlocks = document.querySelectorAll('.question-block');
+        if (questionBlocks.length === 0) {
+            alert('질문을 하나 이상 추가해주세요!');
+            return;
+        }
+
+        surveyResultsContainer.innerHTML = '';
+        surveyResultsContainer.classList.remove('hidden');
+
+        let allTotalsValid = true;
+        let reportText = `<strong>[보고서에 이렇게 써봐요!]</strong><p class="mt-2">우리 반 24명을 대상으로 '${surveyTopic}'에 대해 설문조사를 했습니다.</p>`;
+        
+        questionBlocks.forEach((block, index) => {
+            const questionText = block.querySelector('.question-text').value.trim();
+            if (!questionText) return;
+
+            const answers = [];
+            let totalCount = 0;
+            block.querySelectorAll('.answer-item').forEach(item => {
+                const text = item.querySelector('.answer-text').value.trim();
+                const count = parseInt(item.querySelector('.answer-count').value) || 0;
+                if (text) {
+                    answers.push({ text, count });
+                    totalCount += count;
+                }
+            });
+
+            if (totalCount !== 24) {
+                allTotalsValid = false;
+            }
+
+            // Display results for this question
+            const resultItem = document.createElement('div');
+            resultItem.className = 'result-item';
+            let resultHTML = `<p class="font-bold mb-2">질문 ${index + 1}: ${questionText} (총 ${totalCount}명 응답)</p>`;
+            if (totalCount !== 24) {
+                resultHTML += `<p class="text-sm text-red-500 mb-2">※ 응답한 친구 수가 24명이 맞는지 확인해주세요!</p>`;
+            }
+
+            let maxCount = 0;
+            let maxAnswer = '';
+
+            answers.forEach(answer => {
+                if(answer.count > maxCount) {
+                    maxCount = answer.count;
+                    maxAnswer = answer.text;
+                }
+                const percentage = totalCount > 0 ? (answer.count / totalCount * 100).toFixed(0) : 0;
+                resultHTML += `
+                    <div>
+                        <span>${answer.text}: ${answer.count}명</span>
+                        <div class="result-bar">
+                            <div class="bar-fill" style="width: ${percentage}%">${percentage}%</div>
+                        </div>
+                    </div>
+                `;
+            });
+            resultItem.innerHTML = resultHTML;
+            surveyResultsContainer.appendChild(resultItem);
+
+            if (maxAnswer) {
+                reportText += `<p>'${questionText}'라는 질문에는 '${maxAnswer}'라고 답한 친구가 ${maxCount}명으로 가장 많았습니다. `;
+            }
+        });
+
+        reportText += `이 결과를 통해 우리 반 친구들은 ${surveyTopic}에 대해 주로 이렇게 생각하고 있다는 것을 알 수 있었습니다.</p>`;
+        
+        const reportGuide = document.createElement('div');
+        reportGuide.className = 'report-write-guide';
+        reportGuide.innerHTML = reportText;
+        surveyResultsContainer.appendChild(reportGuide);
+
+        if (!allTotalsValid) {
+            const warning = document.createElement('p');
+            warning.className = "text-center font-bold text-red-600 mt-4";
+            warning.textContent = "⚠️ 몇몇 질문의 응답자 수가 24명이 아니에요! 다시 한번 확인해주세요!";
+            surveyResultsContainer.prepend(warning);
+        }
+        
+        surveyResultsContainer.scrollIntoView({ behavior: 'smooth' });
+    });
+</script>
+</body>
+</html>
+
